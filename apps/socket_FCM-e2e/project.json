@@ -1,0 +1,17 @@
+{
+  "name": "socket_FCM-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": ["socket_FCM"],
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "options": {
+        "jestConfig": "apps/socket_FCM-e2e/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "dependsOn": ["socket_FCM:build"]
+    }
+  }
+}
