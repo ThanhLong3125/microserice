@@ -7,14 +7,32 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "importHelpers": true,
-    "target": "es2015",
+    "target": "ES2023",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": ["ES2023", "dom"],
+    "types": ["node"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "incremental": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": false,
+    "resolveJsonModule": true,
+    "useUnknownInCatchVariables": false,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@gateway/mylib": ["libs/mylib/src/index.ts"],
+      "@socketfcm/common": ["libs/common/src/index.ts"],
+      "@socketfcm/core": ["libs/core/src/index.ts"]
+    }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp", "**/*.spec.ts"]
 }

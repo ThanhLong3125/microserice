@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package notification;
+
+service NotificationService1{
+    rpc sendNotification1(notificationDto) returns (notificationSent) {}
+}
+
+message notificationDto{
+    string result = 1;
+}
+
+message notificationSent{
+    string result = 1;
+}

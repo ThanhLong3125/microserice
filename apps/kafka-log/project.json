@@ -1,0 +1,51 @@
+{
+  "name": "kafka-log",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/kafka-log/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "main": "apps/kafka-log/src/main.ts",
+        "tsConfig": "apps/kafka-log/tsconfig.app.json",
+        "outputPath": "dist/apps/kafka-log",
+        "platform": "node",
+        "format": ["cjs"],
+        "external": ["@nestjs/*", "reflect-metadata"],
+        "assets": [
+          { "input": "libs/mylib", "glob": "README.md", "output": "/" },
+          { "input": "libs/mylib", "glob": "logo.png", "output": "/" },
+          { "input": "libs/mylib", "glob": "docs/**/*.md", "output": "/docs" }
+        ]
+      },
+      "configurations": {
+        "development": {
+          "watch": true
+        },
+        "production": {
+          "minify": true
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "kafka-log:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "kafka-log:build:development"
+        },
+        "production": {
+          "buildTarget": "kafka-log:build:production"
+        }
+      }
+    }
+  },
+  "tags": []
+}

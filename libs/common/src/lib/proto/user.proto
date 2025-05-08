@@ -1,0 +1,22 @@
+syntax = "proto3";
+package user;
+
+service UserService {
+    rpc checkEmailexists (CheckEmailRequest) returns (CheckEmailResponse) {}
+    rpc createUser (CreateUserRequest) returns (CreateUserResponse) {}
+}
+
+message CheckEmailRequest {
+    string email = 1;
+}
+message CheckEmailResponse {
+    bool exists = 1;
+}
+message CreateUserRequest {
+    string name = 1;
+    string email = 2;
+    string password = 3;
+}
+message CreateUserResponse {
+    string message = 1;
+}
