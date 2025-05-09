@@ -8,10 +8,11 @@ import { ConfigModule } from "@nestjs/config";
         ConfigModule.forRoot({
             isGlobal: true,
             envFilePath: ['.env'],
-        })
+        }),
+        
     ],
     controllers: [],
-    providers: [firebaseAdminProvider, FcmService],
-    exports: [FcmService]
+    providers: [FcmService, firebaseAdminProvider],
+    exports: [FcmService, firebaseAdminProvider]
 })
 export class FcmModule { }

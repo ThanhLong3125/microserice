@@ -7,9 +7,7 @@ import { notificationMessage, CreateNotificationDto } from "@socketfcm/common";
 @Controller('notification')
 export class ClientNotificationController {
   private readonly logger = new Logger(ClientNotificationController.name);
-  constructor(
-    private readonly clientNotificationService: ClientNotificationService
-  ) { console.log(this.clientNotificationService) }
+  constructor(private readonly clientNotificationService: ClientNotificationService) { }
 
   @Post('send-notification')
   @ApiOperation({ summary: 'Send a notification to a user' })

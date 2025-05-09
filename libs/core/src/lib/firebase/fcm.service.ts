@@ -1,12 +1,12 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { Notificationfcmdto } from "@socketfcm/common";
-import * as firebase from 'firebase-admin';
 
 @Injectable()
 export class FcmService {
+    constructor(@Inject('FIREBASE_ADMIN') private readonly firebaseAdmin: { defaultApp: any }) { }
     async sendPush(notification: Notificationfcmdto) {
         try {
-            await firebase
+            await this.firebaseAdmin.defaultApp
                 .messaging()
                 .send({
                     notification: {

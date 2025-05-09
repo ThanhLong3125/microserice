@@ -2,7 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { ConnectedSocket, MessageBody, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { Socket } from "socket.io";
 import { Notificationfcmdto } from "@socketfcm/common";
-import { FcmService } from "@socketfcm/core";
+import { FcmService } from "../firebase/fcm.service";
 
 @Injectable()
 @WebSocketGateway(8089, {
@@ -18,7 +18,7 @@ export class SocketService implements OnGatewayDisconnect {
   private readonly logger = new Logger(SocketService.name);
   private readonly connectedSocket = new Map<string, Socket>();
   private readonly connectedFcmtokens = new Map<string, string>();
-  //constructor(private readonly fcmservice: FcmService) { }
+  constructor(private readonly fcmservice: FcmService) { }
 
   @SubscribeMessage('register')
   handleRegister(@MessageBody() data: { fcmToken: string }, @ConnectedSocket() client: Socket) {
@@ -45,7 +45,7 @@ export class SocketService implements OnGatewayDisconnect {
         data: notification.message,
         deviceId: fcmToken
       }
-      //await this.fcmservice.sendPush(fcmNotification);
+      await this.fcmservice.sendPush(fcmNotification);
       this.logger.warn(`Notification sent to user ${clientId} via FCM`);
     }
   }
