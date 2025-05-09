@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
-import { Client, ClientsModule, Transport } from "@nestjs/microservices";
-import { client_authController } from "../controller/client_auth.controller";
+import { ClientsModule, Transport } from "@nestjs/microservices";
+import { ClientAuthController } from "../controller/client_auth.controller";
 import { ClientAuthService } from "../service/client_auth.service";
 
 @Module({
@@ -14,16 +14,17 @@ import { ClientAuthService } from "../service/client_auth.service";
                         clientId: 'auth',
                         brokers: ['localhost:9092']
                     },
+                    consumer: {
+                        groupId: 'auth-cosumer'
+                    },
                     producer: {
                         allowAutoTopicCreation: true,
                     },
-                    producerOnlyMode: true,
                 }
-
             }
         ])
     ],
-    controllers: [client_authController],
+    controllers: [ClientAuthController],
     providers: [ClientAuthService],
 })
 export class client_authModule { }

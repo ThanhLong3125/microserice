@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { AuthController } from './app.controller';
+import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 

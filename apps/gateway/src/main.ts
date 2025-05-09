@@ -9,8 +9,8 @@ async function bootstrap() {
     .setTitle('Gateway API')
     .setDescription('The gateway API description')
     .setVersion('1.0')
-    .addTag('Notification')
     .addTag('Auth')
+    .addTag('Notification')
     .build();
   const DocumentFactory = () => SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, DocumentFactory);

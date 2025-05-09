@@ -3,14 +3,11 @@ import { ClientKafka } from "@nestjs/microservices";
 import { CreateNotificationDto } from "@socketfcm/common";
 
 @Injectable()
-export class ClientNotificationService implements OnModuleInit{
-    constructor(
-        @Inject('NOTIFICATION_KAFKA') private readonly kafkaService: ClientKafka,
-    ) { console.log(this.kafkaService)}
+export class ClientNotificationService implements OnModuleInit {
+    constructor(@Inject('NOTIFICATION_KAFKA') private readonly kafkaService: ClientKafka) { }
 
     async onModuleInit() {
         await this.kafkaService.connect();
-        console.log('ok')
     }
     async createNotification(payload: CreateNotificationDto): Promise<any> {
         const request = { ...payload };

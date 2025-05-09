@@ -3,7 +3,6 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
 import { ClientNotificationService } from "../service/client_notification.service";
 import { ClientNotificationController } from "../controller/client_notification.controller";
 
-
 @Module({
     imports: [
         ClientsModule.register([
@@ -15,15 +14,16 @@ import { ClientNotificationController } from "../controller/client_notification.
                         clientId: 'notification',
                         brokers: ['localhost:9092'],
                     },
+                    consumer: {
+                        groupId: 'notification-cosumer'
+                    },
                     producer: {
                         allowAutoTopicCreation: true,
                     },
-                    producerOnlyMode: true,
                 }
             },
         ])],
     controllers: [ClientNotificationController],
     providers: [ClientNotificationService],
-    exports: [],
 })
 export class ClientNotificationModule { }

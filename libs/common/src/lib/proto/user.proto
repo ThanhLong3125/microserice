@@ -4,6 +4,7 @@ package user;
 service UserService {
     rpc checkEmailexists (CheckEmailRequest) returns (CheckEmailResponse) {}
     rpc createUser (CreateUserRequest) returns (CreateUserResponse) {}
+    rpc getProfile (ID) returns (Profile) {}
 }
 
 message CheckEmailRequest {
@@ -20,3 +21,14 @@ message CreateUserRequest {
 message CreateUserResponse {
     string message = 1;
 }
+
+message ID {
+    string id = 1;
+}
+
+message Profile {
+    string id =1;
+    string name =2;
+    string email =3;
+    string role =4;
+ }
