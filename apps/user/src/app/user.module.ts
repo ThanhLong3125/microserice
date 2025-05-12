@@ -18,7 +18,7 @@ import { User, UserSchema } from '@socketfcm/common';
         uri: configService.get<string>('MONGODB_URI'),
       }),
     }),
-    MongooseModule.forFeature([{name: User.name, schema: UserSchema}])
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
   controllers: [UserController],
   providers: [UserService],

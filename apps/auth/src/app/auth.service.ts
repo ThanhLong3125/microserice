@@ -20,8 +20,9 @@ export class AuthService implements OnModuleInit {
       if (res.exists) {
         return `your ${regiserdto.email} exists`;
       }
-      await firstValueFrom(this.userService.createUser(regiserdto));
-      return `your account ${regiserdto.email} was created`;
+      const result = await firstValueFrom(this.userService.createUser(regiserdto));
+      this.logger.log(result)
+      return result;
     } catch (error) {
       this.logger.error(error);
       return `${error}`

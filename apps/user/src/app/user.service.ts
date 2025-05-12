@@ -6,7 +6,9 @@ import { RegisterDto, UserDto, User, UserDocument } from '@socketfcm/common'
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name);
-  constructor(@InjectModel(User.name) private readonly UserModel: Model<UserDocument>) { }
+  constructor(
+    @InjectModel(User.name) private readonly UserModel: Model<UserDocument>,
+  ) { }
 
   async checkEmailExists(email: string): Promise<boolean> {
     try {
@@ -23,22 +25,21 @@ export class UserService {
     }
   }
 
-  async createUser(user: User): Promise<any> {
+  async createUser(user: RegisterDto): Promise<any> {
     try {
-      this.logger.log(`Creating user ${user.email}`);
-      const User: RegisterDto = {
+      const userData: RegisterDto = {
         email: user.email,
         password: user.password,
         name: user.name,
-        role: 'user',
-      }
-      const newUser = new this.UserModel(User);
-      await newUser.save();
-      this.logger.log(`User ${user.email} created`);
-      const { password, ...result } = newUser;
-      return `${result.name} is created`;
+        role: user.role || 'user',
+      };
+
+      const created = new this.UserModel(userData);
+      await created.save();
+      return { message: 'Created' };
     } catch (error) {
       this.logger.error(`Error creating user ${user.email}: ${error.message}`);
+      return { message: `Failed to create user: ${error.message}` };
 
     }
   }

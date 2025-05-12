@@ -1,11 +1,14 @@
 import { Controller, Logger } from '@nestjs/common';
 import { UserService } from './user.service';
 import { GrpcMethod } from '@nestjs/microservices';
+import { RegisterDto } from '@socketfcm/common';
 
 @Controller()
 export class UserController {
   private readonly logger = new Logger(UserController.name)
-  constructor(private readonly userService: UserService) { }
+  constructor(
+    private readonly userService: UserService,
+  ) { }
 
   @GrpcMethod('UserService', 'checkEmailexists')
   async checkEmailExists(data: { email: string }) {
@@ -20,12 +23,12 @@ export class UserController {
 
 
   @GrpcMethod('UserService', 'createUser')
-  async createUser(user: any) {
+  async createUser(user: RegisterDto) {
     try {
-      const newUser = await this.userService.createUser(user);
-      return newUser;
-    } catch (error) {
-      this.logger.error(error);
+      const result = await this.userService.createUser(user);
+      return result;
+    } catch (err) {
+      this.logger.error(err);
     }
   }
 

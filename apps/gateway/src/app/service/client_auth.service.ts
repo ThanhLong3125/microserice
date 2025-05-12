@@ -10,14 +10,16 @@ export class ClientAuthService implements OnModuleInit {
 
     async onModuleInit() {
         this.auth_client.subscribeToResponseOf('getProfile');
+        this.auth_client.subscribeToResponseOf('register');
         await this.auth_client.connect();
         this.logger.log('Kafka client connected');
 
     }
     async register(payload: RegisterDto): Promise<void> {
         try {
-            this.auth_client.emit('register', payload);
+            const result = await firstValueFrom(this.auth_client.send('register', payload));
             this.logger.log('Register event sent successfully');
+            return result;
         } catch (error) {
             this.logger.error('Error while emitting register event:', error);
         }

@@ -13,7 +13,8 @@ export class ClientAuthController {
   @ApiOperation({ summary: 'register' })
   async Register(@Body() register: RegisterDto) {
     try {
-      return this.authservice.register(register);
+      const result= this.authservice.register(register);
+      return result;
     } catch (error) {
       this.logger.error(error);
     }
