@@ -24,7 +24,8 @@ export class SocketService implements OnGatewayDisconnect {
   handleRegister(@MessageBody() data: { fcmToken: string }, @ConnectedSocket() client: Socket) {
     this.connectedSocket.set(client.id, client);
     this.connectedFcmtokens.set(client.id, data.fcmToken);
-    this.logger.log(`Socket Id ${client.id} registered for user`);
+    const fcm = this.connectedFcmtokens.get(client.id)
+    this.logger.log(`Socket Id ${client.id} registered for user ${fcm}`);
   }
 
   handleDisconnect(client: Socket) {
@@ -48,5 +49,35 @@ export class SocketService implements OnGatewayDisconnect {
       await this.fcmservice.sendPush(fcmNotification);
       this.logger.warn(`Notification sent to user ${clientId} via FCM`);
     }
+  }
+
+  async sendMessage(clientId: string, body: any) {
+    const client = this.connectedSocket.get(clientId);
+    if (client) {
+      client.emit('notification', body);
+      this.logger.log(`Message sent to user`);
+    } else {
+      const fcmToken = this.connectedFcmtokens.get(clientId);
+      const fcmNotification: Notificationfcmdto = {
+        title: 'Notification from ChatSGOD',
+        body: 'U have 1 message',
+        data: body.message,
+        deviceId: fcmToken
+      }
+      await this.fcmservice.sendPush(fcmNotification);
+      this.logger.warn(`Pushed Notification`);
+    }
+  }
+
+  async pushNotification(clientId: string, message: string) {
+    const fcmToken = this.connectedFcmtokens.get(clientId);
+    const fcmNotification: Notificationfcmdto = {
+      title: 'Notification from ChatSGOD',
+      body: 'U have 1 message',
+      data: message,
+      deviceId: fcmToken
+    }
+    await this.fcmservice.sendPush(fcmNotification);
+    this.logger.warn(`Pushed Notification`);
   }
 }

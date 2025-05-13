@@ -10,6 +10,5 @@ export class Notificationfcmdto {
     @IsString()
     deviceId: any;
 
-    @IsObject()
-    data: object;
+    data: object | string;
 }

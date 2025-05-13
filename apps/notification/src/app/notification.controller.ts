@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { NotificationService } from './notification.service';
 import { EventPattern, Payload, RpcException } from '@nestjs/microservices';
-import { CreateNotificationDto } from '@socketfcm/common';
+import { CreateNotificationDto, SendMessageDto } from '@socketfcm/common';
 
 @Controller()
 export class NotificationController {
@@ -17,4 +17,14 @@ export class NotificationController {
     }
   }
 
+  @EventPattern('checked')
+  async sendMess(@Payload() payload: any) {
+    console.log(payload)
+    await this.notificationService.SendMessage(payload);
+  }
+
+  @EventPattern('Check_failed')
+  async SendError(@Payload() payload: any) {
+    return await this.notificationService.PushError(payload);
+  }
 }
