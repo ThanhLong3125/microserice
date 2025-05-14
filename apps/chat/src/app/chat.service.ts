@@ -25,7 +25,7 @@ export class ChatService {
             this.clientKafka.emit('checkFile', payload)
         } catch (err) {
             this.logger.error(`Không gửi được sự kiện checkFile: ${err.message}`);
-            await this.socketService.pushNotification(IdUserReceive, 'Lỗi gửi tin nhắn, vui lòng thử lại sau');
+            this.clientKafka.emit('chat_failed', { id: IdUserReceive, message: 'khong the gui tin nhan' });
         }
     }
 

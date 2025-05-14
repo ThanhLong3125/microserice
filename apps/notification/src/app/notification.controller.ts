@@ -27,4 +27,9 @@ export class NotificationController {
   async SendError(@Payload() payload: any) {
     return await this.notificationService.PushError(payload);
   }
+
+  @EventPattern('chat_failed')
+  async chatFail(@Payload() payload: any){
+    return this.notificationService.PushError(payload);
+  }
 }
